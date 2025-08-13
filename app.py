@@ -519,7 +519,7 @@ elif tab_selection == "📥 下载结果":
                             st.dataframe(df, use_container_width=True)
                             
                             # 提供下载按钮
-                            csv_data = df.to_csv(index=False, encoding='utf-8-sig')
+                            csv_data = df.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
                             st.download_button(
                                 label="💾 下载CSV文件",
                                 data=csv_data,
@@ -546,4 +546,5 @@ st.markdown("""
     <p>🤖 智谱AI Batch API 工具 | 使用Streamlit构建</p>
     <p>支持批量文本处理，提高API调用效率</p>
 </div>
+
 """, unsafe_allow_html=True)
