@@ -266,7 +266,8 @@ with st.sidebar:
         margin-bottom: 1rem;
     ">
         <h3 style="margin: 0; font-size: 1.2rem;">🤖 智谱AI Batch API 工具</h3>
-        <p style="margin: 0.3rem 0 0 0; font-size: 0.8rem; opacity: 0.9;">批量处理文本数据，高效调用智谱AI API</p>
+        <p style="margin: 0.3rem 0 0 0; font-size: 0.8rem; opacity: 0.9;">批量处理文本数据，使用文档：<a href="https://lh65breby7.feishu.cn/wiki/AyPqw9w0RiQDS7kCGrJcB5RwnCd?from=from_copylink" target="_blank" style="color: #FFD700; font-weight: bold; text-decoration: underline; background: rgba(255, 215, 0, 0.1); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(255, 215, 0, 0.3);">📖 飞书文档</a></p>
+
     </div>
     """, unsafe_allow_html=True)
     
@@ -355,6 +356,8 @@ if tab_selection == "📤 创建批处理":
             st.error("请输入API Key")
         elif not uploaded_file:
             st.error("请上传CSV文件")
+        elif not user_prompt.strip():
+            st.error("请填写用户提示词")
         else:
             csv_data, error, _, _ = parse_csv_data(uploaded_file)
             if error:
@@ -546,5 +549,4 @@ st.markdown("""
     <p>🤖 智谱AI Batch API 工具 | 使用Streamlit构建</p>
     <p>支持批量文本处理，提高API调用效率</p>
 </div>
-
 """, unsafe_allow_html=True)
