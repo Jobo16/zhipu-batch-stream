@@ -517,6 +517,10 @@ elif tab_selection == "📥 下载结果":
                             # 创建DataFrame
                             df = pd.DataFrame(results)
                             
+                            # 按ID中的数字排序
+                            df['sort_key'] = df['ID'].str.extract(r'request-(\d+)').astype(int)
+                            df = df.sort_values('sort_key').drop('sort_key', axis=1).reset_index(drop=True)
+                            
                             # 显示结果预览
                             st.subheader("📊 结果预览")
                             st.dataframe(df, use_container_width=True)
