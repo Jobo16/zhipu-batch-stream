@@ -7,6 +7,8 @@ import io
 import csv
 from typing import Optional
 import base64
+import random
+import string
 
 # 页面配置
 st.set_page_config(
@@ -76,8 +78,11 @@ def create_batch_request(api_key: str, model: str, csv_data: list, system_prompt
                 "content": final_user_prompt
             })
             
+            # 生成随机后缀
+            random_suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
+            
             request_data = {
-                "custom_id": f"request-{index + 1}",
+                "custom_id": f"request-{index + 1}-{random_suffix}",
                 "method": "POST",
                 "url": "/v4/chat/completions",
                 "body": {
@@ -307,7 +312,7 @@ if tab_selection == "📤 创建批处理":
         )
         
         max_tokens = st.slider("最大输出长度", 1, 4096, 2048)
-        temperature = st.slider("温度", 0.0, 1.0, 0.7, 0.1)
+        temperature = st.slider("温度", 0.0, 1.0, 0.75, 0.05)
         top_p = st.slider("Top P", 0.0, 1.0, 0.9, 0.1)
     
     with col2:
@@ -517,7 +522,7 @@ elif tab_selection == "📥 下载结果":
                             # 创建DataFrame
                             df = pd.DataFrame(results)
                             
-                            # 按ID中的数字排序
+                            # 按ID中的数字排序（忽略随机后缀）
                             df['sort_key'] = df['ID'].str.extract(r'request-(\d+)').astype(int)
                             df = df.sort_values('sort_key').drop('sort_key', axis=1).reset_index(drop=True)
                             
